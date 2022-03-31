@@ -4,7 +4,7 @@ import com.waa.projectone.waaproject1.domain.Product;
 
 import java.util.List;
 
-public interface ProductRepo {
+public interface ProductRepo  {
 
     public List<Product> findAll();
 
