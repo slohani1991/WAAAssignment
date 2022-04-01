@@ -1,9 +1,7 @@
 package com.assignment.two.assignmenttwo.controller;
 
-import com.assignment.two.assignmenttwo.aspect.LogMe;
-import com.assignment.two.assignmenttwo.entity.DTO.PostDTO;
+import com.assignment.two.assignmenttwo.aspect.annotation.ExecutionTime;
 import com.assignment.two.assignmenttwo.entity.DTO.UserDTO;
-import com.assignment.two.assignmenttwo.entity.Post;
 import com.assignment.two.assignmenttwo.entity.User;
 import com.assignment.two.assignmenttwo.service.PostService;
 import com.assignment.two.assignmenttwo.service.UserService;
@@ -22,11 +20,11 @@ public class UserController {
     @Autowired
     PostService postService;
 
-    @LogMe
     @GetMapping
     public List<UserDTO> getAllUsers(){
         return userService.getAllUsers();
     }
+    @ExecutionTime
     @GetMapping("/{id}")
     public UserDTO getUserById(@PathVariable("id") long id){
         return userService.getUserById(id);
