@@ -23,8 +23,8 @@ public class User {
     private String name;
 
     @OneToMany(mappedBy = "user",cascade = CascadeType.ALL,fetch = FetchType.LAZY)
-            @Fetch(FetchMode.SELECT)
-            @BatchSize(size = 10)
+    @Fetch(FetchMode.SELECT)
+    @BatchSize(size = 10)
     List<Post> posts;
 
 
