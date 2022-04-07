@@ -5,6 +5,7 @@ import com.assignment.two.assignmenttwo.model.LoginResponse;
 import com.assignment.two.assignmenttwo.model.RefreshTokenRequest;
 import com.assignment.two.assignmenttwo.service.AuthService;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -22,7 +23,9 @@ public class AuthController {
     @PostMapping
     public ResponseEntity<?> login(@RequestBody LoginRequest loginRequest) {
         var loginResponse = authService.login(loginRequest);
-        return ResponseEntity.ok().body(loginResponse);
+        if(loginResponse!=null) {
+            return ResponseEntity.ok().body(loginResponse);
+        }return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
     }
 
     @PostMapping("/refreshToken")

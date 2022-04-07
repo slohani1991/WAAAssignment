@@ -27,21 +27,24 @@ public class AuthServiceImpl implements AuthService {
     @Override
     public LoginResponse login(LoginRequest loginRequest) {
         try {
-            authenticationManager.authenticate(
+            var result = authenticationManager.authenticate(
                     new UsernamePasswordAuthenticationToken(loginRequest.getEmail(),
                             loginRequest.getPassword())
             );
+            if(result.isAuthenticated()){
+                final UserDetails userDetails = userDetailsService
+                        .loadUserByUsername(loginRequest.getEmail());
+
+                final String accessToken = jwtHelper.generateToken(loginRequest.getEmail());
+                final String refreshToken = jwtHelper.generateRefreshToken(loginRequest.getEmail());
+                var loginResponse = new LoginResponse(accessToken, refreshToken);
+                return loginResponse;
+            }
+
         } catch (BadCredentialsException e) {
             log.info("Bad Credentials");
         }
-
-        final UserDetails userDetails = userDetailsService
-                .loadUserByUsername(loginRequest.getEmail());
-
-        final String accessToken = jwtHelper.generateToken(loginRequest.getEmail());
-        final String refreshToken = jwtHelper.generateRefreshToken(loginRequest.getEmail());
-        var loginResponse = new LoginResponse(accessToken, refreshToken);
-        return loginResponse;
+        return null;
     }
 
     @Override
