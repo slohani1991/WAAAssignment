@@ -7,6 +7,8 @@ import com.assignment.two.assignmenttwo.entity.User;
 import com.assignment.two.assignmenttwo.helper.ListMapper;
 import com.assignment.two.assignmenttwo.repo.PostRepository;
 import com.assignment.two.assignmenttwo.repo.UserRepository;
+
+import com.assignment.two.assignmenttwo.security.JWT.JwtFilter;
 import com.assignment.two.assignmenttwo.service.PostService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,13 +32,18 @@ public class PostServiceImpl implements PostService {
     ListMapper<User,UserDTO> userListMapper;
 
     @Autowired
+    JwtFilter jwtFilter;
+
+
+    @Autowired
     public PostServiceImpl(PostRepository postRepository) {
         this.postRepository = postRepository;
     }
 
     @Override
-    public void addPost(Post post,long id) {
-        post.setUser(userRepository.findById(id).orElseThrow());
+    public void addPost(Post post) {
+        User user = jwtFilter.getEmail() != null ? userRepository.findByEmail(jwtFilter.getEmail()) : null;
+        post.setUser(user);
         postRepository.save(post);
     }
 
@@ -51,19 +58,9 @@ public class PostServiceImpl implements PostService {
     }
 
     @Override
-    public void deletePost(long id) {
-        postRepository.deleteById(id);
-    }
-
-    @Override
-    public void updatePost(Post post) {
-        postRepository.save(post);
-    }
-
-    @Override
-    public List<PostDTO> getPostByUser(long id) {
-        User userdata = userRepository.findById(id).orElseThrow();
-        return (List<PostDTO>)listMapper.mapList(postRepository.findAllByUser(userdata),new PostDTO());
+    public List<PostDTO> getPostByUser() {
+        User user = jwtFilter.getEmail() != null ? userRepository.findByEmail(jwtFilter.getEmail()) : null;
+        return (List<PostDTO>)listMapper.mapList(postRepository.findAllByUser(user),new PostDTO());
     }
 
     @Override

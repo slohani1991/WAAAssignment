@@ -21,6 +21,7 @@ public class Post {
     private String title;
     private String content;
     private String author;
+
     @ManyToOne(cascade = CascadeType.ALL,fetch = FetchType.LAZY)
     @Fetch(FetchMode.SELECT)
     @BatchSize(size = 10)

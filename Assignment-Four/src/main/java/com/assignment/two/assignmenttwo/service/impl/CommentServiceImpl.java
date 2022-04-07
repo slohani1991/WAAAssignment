@@ -42,4 +42,9 @@ public class CommentServiceImpl implements CommentService {
         comment.setPost(post);
         commentRepository.save(comment);
     }
+
+    @Override
+    public List<CommentDTO> getAllComments() {
+        return (List<CommentDTO>) listMapper.mapList(commentRepository.findAll(),new CommentDTO());
+    }
 }

@@ -1,6 +1,5 @@
 package com.assignment.two.assignmenttwo.aspect;
 
-import com.assignment.two.assignmenttwo.entity.ExceptionData;
 import com.assignment.two.assignmenttwo.service.ExceptionService;
 import com.assignment.two.assignmenttwo.service.LoggerService;
 import org.aspectj.lang.JoinPoint;
@@ -23,9 +22,9 @@ public class LoggerAspect {
     ExceptionService exceptionService;
 
 
-    @Pointcut("execution(* com.assignment.two.assignmenttwo.controller.*.*(..))")
-    public void logData(){
-    }
+//    @Pointcut("execution(* com.assignment.two.assignmenttwo.controller.*.*(..))")
+//    public void logData(){
+//    }
 
     @Pointcut("@annotation(com.assignment.two.assignmenttwo.aspect.annotation.ExecutionTime)")
     public void getExecutionTime(){
@@ -43,22 +42,22 @@ public class LoggerAspect {
             return obj;
     }
 
-    @After("logData()")
-    public void logBefore(JoinPoint joinPoint){
-
-        String operation = joinPoint.getSignature().getName();
-        long userId = 2;
-        loggerService.addLogData(userId,operation);
-    }
-
-    @AfterThrowing(value = "execution(* com.assignment.two.assignmenttwo.controller.*.*(..)))",throwing = "error")
-    public void logAfterThrowing(JoinPoint joinPoint, Exception error){
-
-        String operation = joinPoint.getSignature().getName();
-        long userId =2;
-        exceptionService.addException(userId,operation,error);
-
-    }
+//    @After("logData()")
+//    public void logBefore(JoinPoint joinPoint){
+//
+//        String operation = joinPoint.getSignature().getName();
+//        long userId = 2;
+//        loggerService.addLogData(userId,operation);
+//    }
+//
+//    @AfterThrowing(value = "logData()",throwing = "error")
+//    public void logAfterThrowing(JoinPoint joinPoint, Exception error){
+//
+//        String operation = joinPoint.getSignature().getName();
+//        long userId =2;
+//        exceptionService.addException(userId,operation,error);
+//
+//    }
 
 
 

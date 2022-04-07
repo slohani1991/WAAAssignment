@@ -1,7 +1,6 @@
 package com.assignment.two.assignmenttwo.service;
 
 import com.assignment.two.assignmenttwo.entity.Logger;
-import com.assignment.two.assignmenttwo.entity.User;
 
 import java.util.List;
 

@@ -1,6 +1,6 @@
 package com.assignment.two.assignmenttwo.entity;
 
-import lombok.Data;
+import lombok.*;
 import org.hibernate.annotations.BatchSize;
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
@@ -9,7 +9,7 @@ import javax.persistence.*;
 import java.util.List;
 
 
-@Data
+@Getter@Setter@AllArgsConstructor@NoArgsConstructor
 @Entity
 @Table(name = "users")
 public class User {
@@ -22,16 +22,33 @@ public class User {
     @Column(nullable = false)
     private String name;
 
-    @OneToMany(mappedBy = "user",cascade = CascadeType.ALL,fetch = FetchType.LAZY)
+    @Column(nullable = false)
+    private String username;
+    @Column(nullable = false)
+    private String password;
+    @Column(nullable = false)
+    private String email;
+
+    @Enumerated(EnumType.STRING)
+    @ManyToMany(fetch = FetchType.EAGER)
+    private List<Role> roles;
+
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @Fetch(FetchMode.SELECT)
     @BatchSize(size = 10)
     List<Post> posts;
 
-    @OneToMany(mappedBy = "Principle",fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "Principle", fetch = FetchType.LAZY)
     @Fetch(FetchMode.SELECT)
     @BatchSize(size = 10)
     List<Logger> logger;
 
 
+    public User of(@NonNull String  user,@NonNull String password){
+        User user1=new User();
+
+        return user1;
+    }
 
 }

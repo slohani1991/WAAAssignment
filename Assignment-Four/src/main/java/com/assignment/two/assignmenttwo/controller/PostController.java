@@ -1,13 +1,11 @@
 package com.assignment.two.assignmenttwo.controller;
 
-import com.assignment.two.assignmenttwo.aspect.annotation.ExecutionTime;
+import com.assignment.two.assignmenttwo.entity.Comment;
+import com.assignment.two.assignmenttwo.entity.DTO.CommentDTO;
 import com.assignment.two.assignmenttwo.entity.DTO.PostDTO;
 import com.assignment.two.assignmenttwo.entity.DTO.UserDTO;
-import com.assignment.two.assignmenttwo.entity.Post;
-import com.assignment.two.assignmenttwo.repo.PostRepository;
-import com.assignment.two.assignmenttwo.repo.UserRepository;
+import com.assignment.two.assignmenttwo.service.CommentService;
 import com.assignment.two.assignmenttwo.service.PostService;
-import com.assignment.two.assignmenttwo.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -16,27 +14,31 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/users")
+@RequestMapping("/api/v1/posts")
 public class PostController {
 
     @Autowired
     private PostService postService;
+    @Autowired
+    private CommentService commentService;
 
-    @PostMapping("/{userId}/posts")
-    @ResponseStatus(HttpStatus.CREATED)
-    public void addPost(@RequestBody Post post, @PathVariable Long userId) {
-        postService.addPost(post,userId);
+    @GetMapping("/filter")
+    public ResponseEntity<List<UserDTO>> getUsersByPostTitle(@RequestParam("title") String title){
+        return new ResponseEntity<>(postService.getUserByPostTitle(title),HttpStatus.OK);
     }
-    @GetMapping("/{userId}/posts")
-    public List<PostDTO> getUserPosts(@PathVariable("userId") long id){
-        return postService.getPostByUser(id);
-    }
-    @GetMapping("/{userId}/posts/{title}")
+    @GetMapping("/{title}")
     public ResponseEntity<List<PostDTO>> getPostLikeTitle(@PathVariable("title") String title){
         return new ResponseEntity<>(postService.getPostByTitleLike(title),HttpStatus.OK);
     }
-    @GetMapping("/posts/{title}")
-    public ResponseEntity<List<UserDTO>> getUsersByPostTitle(@PathVariable("title") String title){
-        return new ResponseEntity<>(postService.getUserByPostTitle(title),HttpStatus.OK);
+    @GetMapping("/{postId}/comments/")
+    public ResponseEntity<List<CommentDTO>> getPostComments(@PathVariable("postId") long postId){
+        return new ResponseEntity<>(commentService.getPostComments(postId),HttpStatus.OK);
     }
+
+    @PostMapping("/{postId}/comment")
+    @ResponseStatus(HttpStatus.CREATED)
+    public void addComment(@PathVariable("postId") long postId, @RequestBody Comment comment){
+        commentService.addComment(comment,postId);
+    }
+
 }

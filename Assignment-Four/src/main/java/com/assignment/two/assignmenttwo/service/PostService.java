@@ -9,21 +9,19 @@ import java.util.List;
 
 public interface PostService {
 
-    void addPost(Post post,long userId);
+
+    List<PostDTO> getPostByUser();
+
+    List<PostDTO> getPostByTitleLike(String title);
+
+    List<UserDTO> getUserByPostTitle(String title);
+
+    void addPost(Post post);
 
     List<PostDTO> getAllPost();
 
     PostDTO getPostById(long id);
 
-    void deletePost(long id);
-
-    void updatePost(Post post);
-
-    List<PostDTO> getPostByUser(long id);
-
-    List<PostDTO> getPostByTitleLike(String title);
-
-    List<UserDTO> getUserByPostTitle(String title);
 
 
 }
