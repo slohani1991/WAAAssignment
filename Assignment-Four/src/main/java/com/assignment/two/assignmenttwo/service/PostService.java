@@ -10,17 +10,18 @@ import java.util.List;
 public interface PostService {
 
 
-    List<PostDTO> getPostByUser();
+    List<PostDTO> getPostByUser(String email);
 
     List<PostDTO> getPostByTitleLike(String title);
 
     List<UserDTO> getUserByPostTitle(String title);
 
-    void addPost(Post post);
+    void addPost(Post post,String email);
 
     List<PostDTO> getAllPost();
 
     PostDTO getPostById(long id);
+
 
 
 

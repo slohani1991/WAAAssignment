@@ -17,9 +17,13 @@ public class Post {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(nullable = false)
     private long id;
+    @Column(nullable = false)
     private String title;
+    @Column(nullable = false)
     private String content;
+    @Column(nullable = false)
     private String author;
 
     @ManyToOne(cascade = CascadeType.ALL,fetch = FetchType.LAZY)

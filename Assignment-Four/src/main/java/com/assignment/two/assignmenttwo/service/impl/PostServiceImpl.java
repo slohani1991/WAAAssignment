@@ -14,6 +14,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.security.Principal;
 import java.util.List;
 @Service
 public class PostServiceImpl implements PostService {
@@ -31,8 +32,7 @@ public class PostServiceImpl implements PostService {
     @Autowired
     ListMapper<User,UserDTO> userListMapper;
 
-    @Autowired
-    JwtFilter jwtFilter;
+
 
 
     @Autowired
@@ -41,8 +41,8 @@ public class PostServiceImpl implements PostService {
     }
 
     @Override
-    public void addPost(Post post) {
-        User user = jwtFilter.getEmail() != null ? userRepository.findByEmail(jwtFilter.getEmail()) : null;
+    public void addPost(Post post, String email) {
+        User user = userRepository.findByEmail(email);
         post.setUser(user);
         postRepository.save(post);
     }
@@ -58,8 +58,8 @@ public class PostServiceImpl implements PostService {
     }
 
     @Override
-    public List<PostDTO> getPostByUser() {
-        User user = jwtFilter.getEmail() != null ? userRepository.findByEmail(jwtFilter.getEmail()) : null;
+    public List<PostDTO> getPostByUser(String email) {
+        User user = userRepository.findByEmail(email);
         return (List<PostDTO>)listMapper.mapList(postRepository.findAllByUser(user),new PostDTO());
     }
 

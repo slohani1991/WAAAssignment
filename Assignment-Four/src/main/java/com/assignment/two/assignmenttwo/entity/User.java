@@ -23,8 +23,6 @@ public class User {
     private String name;
 
     @Column(nullable = false)
-    private String username;
-    @Column(nullable = false)
     private String password;
     @Column(nullable = false)
     private String email;
@@ -43,12 +41,5 @@ public class User {
     @Fetch(FetchMode.SELECT)
     @BatchSize(size = 10)
     List<Logger> logger;
-
-
-    public User of(@NonNull String  user,@NonNull String password){
-        User user1=new User();
-
-        return user1;
-    }
 
 }

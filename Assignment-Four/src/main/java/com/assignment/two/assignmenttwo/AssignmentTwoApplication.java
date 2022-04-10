@@ -17,7 +17,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @SpringBootApplication
-public class AssignmentTwoApplication  {
+public class AssignmentTwoApplication {
 
     @Autowired
     UserRepository userRepository;
@@ -40,6 +40,7 @@ public class AssignmentTwoApplication  {
 //
 //        Role role1= new Role(1,"ROLE_ADMIN");
 //        Role role2 = new Role(2,"ROLE_USER");
+//
 //        roleRepository.save(role1);
 //        roleRepository.save(role2);
 //

@@ -14,6 +14,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.security.Principal;
 import java.util.List;
 
 @RestController
@@ -58,28 +59,28 @@ public class UserController {
 
     @PostMapping("/posts")
     @ResponseStatus(HttpStatus.CREATED)
-    public void addPost(@RequestBody Post post) {
-        postService.addPost(post);
+    public void addPost(@RequestBody Post post, Principal principal) {
+        postService.addPost(post,principal.getName());
     }
 
     @GetMapping(value = "/posts")
-    public List<PostDTO> getUserPosts(){
-        return postService.getPostByUser();
+    public List<PostDTO> getUserPosts(Principal principal){
+        return postService.getPostByUser(principal.getName());
     }
 
-    @GetMapping("{userId}/posts/{postId}")
+    @GetMapping("/posts/{postId}")
     public PostDTO getPostById(@PathVariable("postId") long postId){
         return postService.getPostById(postId);
     }
 
     //comment domain
 
-    @GetMapping("{userId}/posts/{postId}/comments")
+    @GetMapping("/posts/{postId}/comments")
     public ResponseEntity<List<CommentDTO>> getPostComments(@PathVariable("postId") long postId){
         return new ResponseEntity<>(commentService.getPostComments(postId),HttpStatus.OK);
     }
 
-    @GetMapping("{userId}/posts/{postId}/comments/{commentId}")
+    @GetMapping("/posts/{postId}/comments/{commentId}")
     public CommentDTO getPostByCommentId(@PathVariable("commentId") long commentId){
         return commentService.getCommentById(commentId);
     }
